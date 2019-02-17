@@ -1,0 +1,51 @@
+#addCircleBtn{
+	color: #dc3545;
+}
+
+#courseGrid{
+	color: black;
+}
+
+#courseManagerLink{
+	padding-left: 10px;
+}
+
+
+
+#courseTableTitle{
+	background: #e5e5e5;
+	color: #696969;
+	font-weight:700;
+}
+
+
+#sort-ascending{
+	color: black;
+}
+
+.courseName{
+	color: black;
+	text-decoration: none;
+}
+
+.remove-course{
+	color: black;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-style: italic;
+  font-weight: 500;
+}
+
+.wd-bottom-right{
+	color: #dc3545; 
+	position: fixed;
+	bottom: 10px; 
+	right: 10px;
+}
+
+@media (max-width: 679px) {
+	
+	table.responsive td, table.responsive th{display:none}
+	table.responsive tr td.title, table.responsive tr th.title{display:block;}
+}

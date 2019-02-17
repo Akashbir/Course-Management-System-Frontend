@@ -1,0 +1,320 @@
+[
+  {
+    "id": 123,
+    "title": "Artificial Intelligence",
+    "modules": [
+      {
+        "id": 213,
+        "title": "Module 1",
+        "lessons": [
+          {
+            "id": 124,
+            "title": "Ai Lesson 1",
+            "topics": [
+              {
+                "id": 293,
+                "title": "AI_TOPIC1",
+                "widgets": [
+                  {
+                    "id": 7274,
+                    "type": "HEADING",
+                    "title": "Widget 1",
+                    "size": 2,
+                    "text": "DFS",
+                    "widgetOrder" : 1
+                  },
+                  {
+                    "id": 26389,
+                    "type": "PARA",
+                    "title": "Para Widget Name",
+                    "text": "This topic introduces the DOM",
+                    "widgetOrder" : 2
+                  },
+                  {
+                    "id": 836,
+                    "type": "LIST",
+                    "listItems": ["Assistive Technologies","Fuzzy System","AI Robots","Genomes","Evolutionary Computation","Hive Mind"],
+                    "tagtype": "ol",
+                    "widgetOrder" : 3
+                  },
+                  {
+                    "id": 937,
+                    "type": "IMAGE",
+                    "src": "https://static-cdn.jtvnw.net/jtv_user_pictures/dogdog-profile_image-5550ade194780dfc-300x300.jpeg",
+                    "title": "Image Widget Name",
+                    "widgetOrder" : 4
+                  },
+                  {
+                    "id": 745,
+                    "type": "LINK",
+                    "title": "The DOM",
+                    "href": "https://en.wikipedia.org/wiki/Outline_of_artificial_intelligence#Artificial_intelligence_in_fiction",
+                    "src": "https://en.wikipedia.org/wiki/Outline_of_artificial_intelligence#Artificial_intelligence_in_fiction",
+                    "widgetOrder": 5
+                  }
+                ]
+              },
+              {
+                "id": 7492,
+                "title": "AI_TOPIC2",
+                "widgets": []
+              },
+              {
+                "id": 34727,
+                "title": "AI_TOPIC3",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 53922,
+            "title": "Ai Lesson 2",
+            "topics": []
+          }
+        ]
+      },
+      {
+        "id": 227034,
+        "title": "Module 2",
+        "lessons": [
+          {
+            "id": 192730,
+            "title": "Lecture 7",
+            "topics" :[
+              {
+                "id": 172601,
+                "title": "Markov Principle",
+                "widgets": []
+              },
+              {
+                "id": 72302,
+                "title": "AI SAMPLE",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "owner": "Joe Gomez"
+  },
+  {
+    "id": 2713023,
+    "title": "Course 2",
+    "modules": [
+      {
+        "id": 82380,
+        "title": "jQuery",
+        "lessons": [
+          {
+            "id": 82630,
+            "title": "Lecture 1",
+            "topics" :[
+              {
+                "id": 91031,
+                "title": "Front End Web Dev",
+                "widgets": []
+              },
+              {
+                "id": 893012,
+                "title": "Angular",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 20239,
+            "title": "Lesson 2",
+            "topics": [
+              {
+                "id": 902131,
+                "title": "Scripting with JS",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 428310,
+        "title": "MongoDB",
+        "lessons": [
+          {
+            "id": 3,
+            "title": "Lesson 3",
+            "topics": [
+              {
+                "id": 10183,
+                "title": "NoSQL Basics",
+                "widgets": []
+              },
+              {
+                "id": 20471,
+                "title": "Mongo Advantages",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 523809,
+            "title": "Lesson 4",
+            "topics": [
+              {
+                "id": 930122,
+                "title": "MongoDB Advanced Topics",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "owner": "Jose Annunziato"
+  },
+  {
+    "id": 566707,
+    "title": "Computer Networks",
+    "modules": [
+      {
+        "id": 13214,
+        "title": "TCP",
+        "lessons": [
+          {
+            "id": 104872,
+            "title": "Lesson 1",
+            "topics" :[
+              {
+                "id": 102481,
+                "title": "TCP_TITLE",
+                "widgets": []
+              },
+              {
+                "id": 201238,
+                "title": "UDP",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 8390853,
+            "title": "Lesson 2",
+            "topics": [
+              {
+                "id": 9201,
+                "title": "IPADDRESS",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2124,
+        "title": "Routing",
+        "lessons": [
+          {
+            "id": 33322,
+            "title": "Lesson 3",
+            "topics": [
+              {
+                "id": 445566,
+                "title": "Modem",
+                "widgets": []
+              },
+              {
+                "id": 2837920,
+                "title": "Modem_Specs",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 2948109,
+            "title": "Lesson 4",
+            "topics": [
+              {
+                "id": 2801,
+                "title": "DFS Using Networks",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "owner": "Lawson Wong"
+  },
+  {
+    "id": 943357,
+    "title": "OOP",
+    "modules": [
+      {
+        "id": 5398532,
+        "title": "C++",
+        "lessons": [
+          {
+            "id": 103943,
+            "title": "Lecture 1",
+            "topics" :[
+              {
+                "id": 12345,
+                "title": "Inheritance",
+                "widgets": []
+              },
+              {
+                "id": 202486,
+                "title": "Polymorphism",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 203857,
+            "title": "Lecture 2",
+            "topics": [
+              {
+                "id": 100824,
+                "title": "Abstraction",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 208457,
+        "title": "Classes and Objects",
+        "lessons": [
+          {
+            "id": 308349,
+            "title": "Lecture 3",
+            "topics": [
+              {
+                "id": 138748,
+                "title": "Classes",
+                "widgets": []
+              },
+              {
+                "id": 209374,
+                "title": "Union",
+                "widgets": []
+              }
+            ]
+          },
+          {
+            "id": 418240,
+            "title": "Lecture 4",
+            "topics": [
+              {
+                "id": 109358,
+                "title": "Overloading Operator",
+                "widgets": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "owner": "Akashbir Singh"
+  }
+]
