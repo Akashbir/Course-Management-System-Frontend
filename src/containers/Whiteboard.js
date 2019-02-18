@@ -54,7 +54,7 @@ class WhiteBoard extends Component {
                                    <CourseGrid
                                        addCourse={this.createCoursesWB}
                                        deleteCourse={this.deleteCoursesWB}
-                                       courses={this.state.courses}
+                                       // courses={this.state.courses}
                                        titleChanged={this.titleChangedWB}/>}/>
                         <Route path="/courseEditor/:id"
                         exact
