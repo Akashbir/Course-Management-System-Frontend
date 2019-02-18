@@ -1,8 +1,13 @@
 import courses from './courses.json'
 
 let instance = null;
-const COURSE_API_URL = 'http://localhost:8080/api/courses'
-const COURSE_ID_URL = 'http://localhost:8080/api/courses/'
+
+const SERVER_URL = 'http://localhost:8080/';
+
+const COURSE_API_URL = SERVER_URL + 'api/courses';
+const COURSE_ID_URL = SERVER_URL+ 'api/courses/';
+const COURSE_DELETE_URL = SERVER_URL+ 'api/courses/';
+const COURSE_ADD_URL = SERVER_URL+ 'api/courses';
 
 class CourseService {
     constructor() {
@@ -13,23 +18,62 @@ class CourseService {
         return instance;
     }
 
-    addCourse = course => {
-        if (course === null) {
-            course = {
-                id: (new Date()).getTime(),
-                title: 'New Course'
-            }}
-            else {
-            course = {
-                id: (new Date()).getTime(),
-                title: course.title
+    // addCourse = course => {
+        // if (course === null) {
+        //     course = {
+        //         id: (new Date()).getTime(),
+        //         title: 'New Course'
+        //     }}
+        //     else {
+        //     course = {
+        //         id: (new Date()).getTime(),
+        //         title: course.title
+        //
+        //     }
+        // }
+        // console.log(course.id);
+        // this.courses.push(course);
+        // return this.courses
 
-            }
+    //     return fetch(COURSE_ADD_URL , {
+    //         method: 'post',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         credentials:'include'
+    //     })
+    //         .then( function(response){
+    //
+    //             return response.json()
+    //
+    //         })
+    //
+    //
+    //
+    // };
+
+    createCourse = (newCourseName) => {
+        if(newCourseName.title === "" || newCourseName === undefined|| newCourseName===null) {
+            newCourseName.title = "New Course"
         }
-        console.log(course.id);
-        this.courses.push(course);
-        return this.courses
-    };
+        // alert(newCourseName.title);
+        // alert(newCourseName.id);
+        return fetch(COURSE_ADD_URL, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            credentials:'include',
+            body: JSON.stringify(newCourseName)
+        })
+            .then( function(response){
+
+                return response.json()
+
+            });
+
+    }
 
 
     findCourseById = courseId => {
@@ -39,15 +83,19 @@ class CourseService {
         return fetch(idURL , {
             method: 'get',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Accept': 'application/json'
             },
             credentials:'include'
         })
             .then( function(response){
 
+                // console.log(response.json());
                 return response.json()
 
+
             })
+
     }
 
     findAllCourses = () =>{
@@ -65,12 +113,15 @@ class CourseService {
             })
     };
 
-    deleteCourse = deleteCourse => {
-        console.log(deleteCourse)
-        this.courses = this.courses.filter(
-            course => course.id !== deleteCourse.id
-        );
-    }
+    deleteCourse = courseId => {
+        const delURL = COURSE_DELETE_URL + courseId;
+
+        return fetch(delURL , {
+            method: 'delete',
+        })
+
+
+    };
 
 
 

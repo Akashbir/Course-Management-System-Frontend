@@ -7,6 +7,7 @@ export class CourseNavbar extends Component{
         super(props)
     }
 
+
     render() {
         return (
             <div>
@@ -21,7 +22,7 @@ export class CourseNavbar extends Component{
                                aria-label="Search"
                                onChange={this.props.titleChanged}
                         />
-                        <a href="#" id="add-course" onClick={this.props.addCourse }>
+                        <a href="#" id="add-course" onClick={() => this.props.addCourse()}>
 			<span className="fa-stack">
 				<i className="fa fa-circle fa-stack-2x" id="addCircleBtn"></i>
 				<i className="fa fa-plus fa-stack-1x fa-inverse"></i>

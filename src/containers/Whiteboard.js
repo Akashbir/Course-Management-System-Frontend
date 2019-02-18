@@ -9,6 +9,7 @@ import Register from '../components/Register'
 
 
 import CourseEditor from "./CourseEditor";
+import {CourseTableBodyLayout} from "./CourseTableBodyLayout";
 
 
 class WhiteBoard extends Component {
@@ -39,12 +40,7 @@ class WhiteBoard extends Component {
             }
         )
     };
-    titleChangedWB = (event) => {
-        this.setState(
-            {
-                courseName: {title: event.target.value}
-            });
-    };
+
 
     render() {
         return (
@@ -81,8 +77,8 @@ class WhiteBoard extends Component {
                         <Route path='/courseList'
                                exact
                                render={() =>
-                                   <CourseTable
-                                       courses={this.state.courses}
+                                   <CourseTableBodyLayout
+                                       // courses={this.state.courses}
                                        addCourse={this.createCoursesWB}
                                        deleteCourse={this.deleteCoursesWB}
                                        titleChanged={this.titleChangedWB}

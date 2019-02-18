@@ -4,6 +4,7 @@ import ModuleListItem from "../components/ModuleListItem";
 import CourseRow from "../components/CourseRow";
 import  {Link} from 'react-router-dom'
 import UserService from "../services/UserService";
+import {CourseNavbar} from "./CourseNavbar";
 
 export class CourseTableBodyLayout extends Component{
 
@@ -53,7 +54,8 @@ export class CourseTableBodyLayout extends Component{
         super(props);
         this.courseService = new CourseService();
         this.state = {
-            courses: []
+            courses: [],
+            newCourseName:"",
 
         }
     }
@@ -69,6 +71,52 @@ export class CourseTableBodyLayout extends Component{
     }
 
 
+    addCourse = () => {
+
+
+        this.courseService.createCourse(this.state.newCourseName).then(
+            r => {
+                this.courseService.findAllCourses()
+                    .then(myJson => {
+                        console.log("courses: "+myJson);
+                        this.setState({
+                            courses: myJson
+                        })
+                    });
+            }
+        )
+            // .then(myJson =>   this.setState({
+            //
+            //     courses: [...this.state.courses, myJson]
+            // }));
+
+
+    };
+
+    titleChanged = (event) => {
+        this.setState(
+            {
+                newCourseName: {title: event.target.value}
+            });
+    };
+
+    deleteCourse = (deleteId) => {
+        this.courseService.deleteCourse(deleteId)
+            .then(() => {
+                this.courseService.findAllCourses().then(
+                    (res) => {
+                        this.setState({
+                            courses: res
+                        })
+                    }
+                )
+            })
+
+    }
+
+
+
+
 
 
 render() {
@@ -76,6 +124,7 @@ render() {
 
         return (
             <div>
+                <CourseNavbar addCourse={this.addCourse} titleChanged={this.titleChanged}/>
                 <div>
                     <div className="container-fluid">
                         <div className="table-responsive">
@@ -96,7 +145,7 @@ render() {
                                         this.state.courses.map(
                                             (course) => {
                                                 return (
-                                                    <CourseRow course={course} key={course.id} deleteCourse={this.props.deleteCourse}/>
+                                                    <CourseRow course={course} key={course.id} deleteCourse={this.deleteCourse}/>
                                                 )
                                             }
                                         )
