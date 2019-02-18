@@ -27,16 +27,20 @@ export default class LessonService {
     }
 
     updateLesson = (lessonId, newLessonTitle) => {
-        const updateURL = server_url + "api/lesson/" + lessonId
-        return(fetch(updateURL,{
+        const newLesson = {
+            title: newLessonTitle,
+            id: lessonId
+        }
+        const updateURL = server_url + "api/lesson/" + lessonId;
+        return fetch(updateURL,{
             method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'content-type': 'application/json'
             },
             credentials: 'include',
-            body: JSON.stringify(newLessonTitle)
-        })).then(function (response) {
+            body: JSON.stringify(newLesson)
+        }).then(function (response) {
             return response.json();
 
         })
@@ -53,8 +57,11 @@ export default class LessonService {
     }
 
     findLessonByModuleId = (moduleId) => {
-        alert(moduleId);
+        // alert(moduleId);
         const findUrl = server_url + "api/module/"+moduleId+"/lesson";
-        return fetch(findUrl).then(res => res.json())
+        return fetch(findUrl, {
+            method: 'get',
+            credentials: 'include'
+        }).then(res => res.json())
    }
 }

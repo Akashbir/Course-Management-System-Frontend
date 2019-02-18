@@ -5,6 +5,7 @@ import './courseEditor.style.client.css'
 import ModuleList from "../components/ModuleList";
 import CourseService from '../services/CourseService';
 import LessonService from '../services/LessonService'
+import TopicService from '../services/TopicService'
 import LessonTabs from "../components/LessonTabs";
 import TopicPills from "../components/TopicPills";
 import WidgetList from "../components/WidgetList"
@@ -25,6 +26,7 @@ const store = createStore(WidgetReducer);
          this.courseService = new CourseService();
          this.moduleService = new ModuleService();
          this.lessonService = new LessonService();
+         this.topicService = new TopicService();
          // const courseId = parseInt(props.match.params.id)
          // const course = this.courseService.findCourseById(courseId)
          // console.log(course)
@@ -41,12 +43,12 @@ const store = createStore(WidgetReducer);
              // },
              newModuleTitle: '',
              newLessonTitle: '',
-             // newTopicTitle: '',
+             newTopicTitle: '',
              selectedModule: '',
-             // selectedLessonName: '',
-             // selectedTopicName: '',
-             // topics: [],
-             // topic: [],
+             selectedLessonName: '',
+             selectedTopicName: '',
+             topics: [],
+             topic: [],
              // widgets: []
          }
      }
@@ -60,8 +62,10 @@ const store = createStore(WidgetReducer);
                   course: response,
                   module: response.modules[0],
                   modules: response.modules,
-                  lesson: response.modules[0],
-                  lessons: response.modules[0].lessons
+                  lesson: response.modules[0].lessons[0],
+                  lessons: response.modules[0].lessons,
+                  topic: response.modules[0].lessons[0].topics[0],
+                  topics: response.modules[0].lessons[0].topics
 
               })
           })
@@ -153,6 +157,16 @@ const store = createStore(WidgetReducer);
          })
      }
 
+     deleteTopic = (topic) => {
+         this.topicService.deleteTopic(topic).then(() => {
+             this.topicService.findTopicByLessonId(this.state.lesson.id).then((res) => {
+                 this.setState({
+                     topics: res
+                 })
+             })
+         })
+     }
+
      selectModule = (module) => {
          if(module.lessons.length == 0) {
              this.setState({
@@ -213,6 +227,45 @@ const store = createStore(WidgetReducer);
 
      }
 
+     updateLesson = () => {
+
+         if(this.state.newLessonTitle === "" || this.state.newLessonTitle===undefined){
+             this.state.newLessonTitle = this.state.selectedLessonName.title;
+
+         }
+         this.lessonService.updateLesson(this.state.selectedLessonName.id,this.state.newLessonTitle)
+             .then(() =>
+                 // console.log("update ==>",res)
+                 this.lessonService.findLessonByModuleId(this.state.module.id).then(response => {
+                     console.log("inside update lesson", response)
+                     this.setState({
+                         lessons: response
+                     })
+                 })
+             )
+     }
+
+
+     updateTopic = () => {
+         if(this.state.newTopicTitle === "" || this.state.newTopicTitle===undefined){
+             this.state.newTopicTitle = this.state.selectedTopicName.title;
+
+         }
+         this.topicService.updateTopic(this.state.selectedTopicName.id,this.state.newTopicTitle)
+             .then(() =>
+                 // console.log("update ==>",res)
+                 this.topicService.findTopicByLessonId(this.state.lesson.id).then(response => {
+                     console.log("inside update topic", response)
+                     this.setState({
+                         topics: response
+                     })
+                 })
+             )
+
+     }
+
+
+
      createLesson = () => {
          const newLesson = {
              title: this.state.newLessonTitle
@@ -222,6 +275,24 @@ const store = createStore(WidgetReducer);
                  lessons: [...this.state.lessons, res]
              })
          )
+     }
+
+
+     createTopic = () => {
+
+         const newTopic = {
+             title: this.state.newTopicTitle
+         }
+
+         // alert(newTopic.title)
+         // alert("lesson id" + this.state.lesson.id);
+         // alert("topic id"+ this.state.topic.id);
+         this.topicService.addTopic(newTopic, this.state.lesson.id).then(
+             (res) => this.setState({
+                 topics: [...this.state.topics, res]
+             })
+         )
+
      }
 
 
@@ -259,44 +330,13 @@ const store = createStore(WidgetReducer);
      placeLessonTitleInput = (lesson) => {
          document.getElementById("lesson-input-field").value = lesson.title;
          this.setState({
-             selectedLessonName: lesson.title
+             selectedLessonName: lesson
          })
      }
 
-     updateLesson = () => {
-         if(this.state.newLessonTitle === "" || this.state.newLessonTitle===undefined){
-             this.state.newLessonTitle = this.state.selectedLessonName.title;
 
-         }
-         this.lessonService.updateLesson(this.state.selectedLessonName.id,this.state.newLessonTitle)
-             .then(() =>
-                 // console.log("update ==>",res)
-                 this.lessonService.findLessonByModuleId(this.state.courseId).then(response => {
-                     console.log("inside update lesson", response)
-                     this.setState({
-                         modules: response
-                     })
-                 })
-             )
-     }
 
-     createTopic = () => {
-         console.log('before length of topics: '+this.state.newTopicTitle);
-         var newTopic = {
-             id: (new Date()).getTime(),
-             title: this.state.newTopicTitle,
-             topics: []
-         }
 
-         let tempTopics = this.state.topics;
-         tempTopics.push(newTopic);
-         document.getElementById("topic-input-field").value = '';
-         this.setState({
-             topics: tempTopics
-         })
-
-         console.log('after length of topics: '+this.state.topics.length);
-     }
 
 
      titleChangedTopic = (event) => {
@@ -313,41 +353,16 @@ const store = createStore(WidgetReducer);
          }
      }
 
-     deleteTopic = (topic) => {
-         for(var i=0; i<this.state.topics.length; i++) {
-             if(this.state.topics[i].title == topic.title) {
-                 this.state.topics.splice(i, 1);
-             }
-         }
-         if(this.state.topics.length>0){
-             this.setState({
-                 topic: this.state.topics[0]
-             })
-         }
-         else{
-             this.setState({
-                 topic: {widgets: []}
-             })
-         }
-     }
+
 
      placeTopicTitleInput = (topic) => {
          document.getElementById("topic-input-field").value = topic.title;
          this.setState({
-             selectedTopicName: topic.title
+             selectedTopicName: topic
          })
      }
 
-     updateTopic = () => {
-         var tobeEditedTopicTitle = this.state.selectedTopicName;
-         for(var i=0; i<this.state.topics.length; i++) {
-             if(this.state.topics[i].title == tobeEditedTopicTitle) {
-                 this.state.topics[i].title = this.state.newTopicTitle;
-             }
-         }
-         document.getElementById("topic-input-field").value = '';
-         this.forceUpdate();
-     }
+
 
 
      selectTopic = (topic) => {
@@ -415,32 +430,32 @@ const store = createStore(WidgetReducer);
 
 
 
-                        {/*<TopicPills*/}
-                            {/*topics={this.state.topics}*/}
-                            {/*deleteTopic={this.deleteTopic}*/}
-                            {/*placeTopicTitleInput={this.placeTopicTitleInput}*/}
-                            {/*updateTopic={this.updateTopic}*/}
-                            {/*createTopic = {this.createTopic}*/}
-                            {/*selectTopic = {this.selectTopic}*/}
-                        {/*/>*/}
+                        <TopicPills
+                            topics={this.state.topics}
+                            deleteTopic={this.deleteTopic}
+                            placeTopicTitleInput={this.placeTopicTitleInput}
+                            updateTopic={this.updateTopic}
+                            createTopic = {this.createTopic}
+                            selectTopic = {this.selectTopic}
+                        />
 
 
-                        {/*<input type="text"*/}
-                               {/*id="topic-input-field"*/}
-                               {/*onChange={this.titleChangedTopic}*/}
-                               {/*placeholder="Enter topic name"*/}
-                               {/*aria-describedby="basic-addon2"*/}
+                        <input type="text"
+                               id="topic-input-field"
+                               onChange={this.titleChangedTopic}
+                               placeholder="Enter topic name"
+                               aria-describedby="basic-addon2"
 
-                        {/*/>*/}
-                        {/*<div className="input-group-append">*/}
-                            {/*<button*/}
-                                {/*onClick={ () => this.createTopic()}*/}
-                                {/*className="btn btn-outline-secondary" type="button">Add Topic</button>*/}
-                            {/*<button*/}
-                                {/*onClick={ () => this.updateTopic()}*/}
-                                {/*className="btn btn-outline-secondary ml-2" type="button">Update Topic</button>*/}
+                        />
+                        <div className="input-group-append">
+                            <button
+                                onClick={ () => this.createTopic()}
+                                className="btn btn-outline-secondary" type="button">Add Topic</button>
+                            <button
+                                onClick={ () => this.updateTopic()}
+                                className="btn btn-outline-secondary ml-2" type="button">Update Topic</button>
 
-                        {/*</div>*/}
+                        </div>
                         {/*<Provider store={store}>*/}
                             {/*<WidgetListContainer/>*/}
                         {/*</Provider>*/}
