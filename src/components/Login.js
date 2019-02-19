@@ -48,6 +48,10 @@ class Login extends Component {
         if(newUser.password!==this.state.user.username || newUser.username!==this.state.user.username){
             alert('Invalid credentials');
         }
+        else if(newUser.password==="" || newUser.username===""){
+            alert('Username or password field empty');
+        }
+        
         else {
             this.userService.login(newUser).then(() => {
                 this.props.history.push("/courseList")
