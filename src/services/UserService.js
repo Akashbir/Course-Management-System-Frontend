@@ -1,9 +1,9 @@
 let instance = null;
-const loginUrl = "http://localhost:8080/api/login";
-const profileUrl = "http://localhost:8080/api/profile";
-const updateUrl = "http://localhost:8080/api/user/updateUser/";
-const logoutUrl = "http://localhost:8080/api/logout";
-const registerUrl = "http://localhost:8080/api/register";
+const loginUrl = "https://pacific-hamlet-73848.herokuapp.com/api/login";
+const profileUrl = "https://pacific-hamlet-73848.herokuapp.com/api/profile";
+const updateUrl = "https://pacific-hamlet-73848.herokuapp.com/api/user/updateUser/";
+const logoutUrl = "https://pacific-hamlet-73848.herokuapp.com/api/logout";
+const registerUrl = "https://pacific-hamlet-73848.herokuapp.com/register";
 
 
 

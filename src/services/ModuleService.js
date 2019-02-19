@@ -1,6 +1,6 @@
 
 let instance = null;
-const server_url = "http://localhost:8080/";
+const server_url = "https://pacific-hamlet-73848.herokuapp.com/";
 const MODULE_ID_URL = server_url + 'api/modules/';
 const MODULE_DELETE_URL = server_url+'api/modules/';
 // const MODULE_ADD_URL = server_url+'api/courses/{cid}/modules'
