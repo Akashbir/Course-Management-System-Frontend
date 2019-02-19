@@ -45,7 +45,7 @@ class Login extends Component {
 
     login = () => {
         const newUser = this.state.user;
-        if(newUser.password!==this.state.user.password || newUser.username!==this.state.user.username){
+        if(newUser.password!==this.state.user.username || newUser.username!==this.state.user.username){
             alert('Invalid credentials');
         }
         else if(newUser.password==="" || newUser.username===""){
