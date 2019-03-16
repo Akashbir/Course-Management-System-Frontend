@@ -23,7 +23,7 @@ const HeadingWidget  = ({widget, updateWidget, deleteWidget, preview, moveUp, mo
                                     className="btn btn-warning mr-2" href="#"><i className="fa fa-arrow-down"></i></a>
                                     <select
                                         onChange={(event) => {
-                                            widget.type = event.target.value
+                                            widget.type = event.target.value;
                                             updateWidget(widget)
                                         }}
                                         className="form-control"

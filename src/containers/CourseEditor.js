@@ -49,6 +49,7 @@ const store = createStore(WidgetReducer);
              selectedModule: '',
              selectedLessonName: '',
              selectedTopicName: '',
+
              topics: [],
              topic: [],
              widgets: [],
@@ -121,7 +122,8 @@ const store = createStore(WidgetReducer);
                      },
                      topic: {
                          title: ""
-                     }
+                     },
+                     widgets: []
                  })
              }
 
@@ -137,9 +139,24 @@ const store = createStore(WidgetReducer);
                      },
                      topic: {
                          title: ""
-                     }
+                     },
+                     widgets: []
                  })
 
+             }
+             else if (course.modules.lessons.topics.widgets === undefined || course.modules.lessons.topics.widgets == null || course.modules.lessons.topics.widgets.length === 0){
+                 this.setState(
+                     {
+                         course: course,
+                         module: course.modules[0],
+                         modules:course.modules,
+                         lesson: course.modules[0].lessons[0],
+                         lessons:course.modules[0].lessons,
+                         topics: course.modules[0].lessons[0].topics,
+                         topic:  course.modules[0].lessons[0].topics[0] === undefined ? 0 : response.modules[0].lessons[0].topics[0],
+                         widgets:[],
+                     }
+                 )
              }
 
              else {
@@ -156,7 +173,7 @@ const store = createStore(WidgetReducer);
                          topic:  course.modules[0].lessons[0].topics[0] === undefined ? 0 : response.modules[0].lessons[0].topics[0],
 
                          widgets: course.modules[0].lessons[0].topics[0].widgets,
-                         widget: course.modules[0].lessons[0].topics[0].widgets[0]
+                       //  widget: course.modules[0].lessons[0].topics[0].widgets[0]
                      }
                  )
              }
@@ -463,16 +480,9 @@ const store = createStore(WidgetReducer);
 
          this.state.topic = topic;
          this.state.widgets = topic.widgets;
+         this.setWidgets(topic.id);
 
-         if(topic.widgets.length == 0) {
-             this.setState({
-                 widgets: []
-             })
-         } else {
-             this.setState({
-                 widgets: topic.widgets
-             })
-         }
+
          // this.widgetService.findWidgetByTopicId(this.state.topic.id).then((response) => {
          //     store.dispatch({
          //         type: 'FIND_ALL_WIDGETS',
@@ -488,17 +498,31 @@ const store = createStore(WidgetReducer);
 
      }
 
+     setWidgets(topicId){
+         this.widgetService.findWidgetByTopicId(topicId).then((response) => {
+             store.dispatch({
+                 type: 'FIND_ALL_WIDGETS',
+                 widgets: response.sort((a,b) => parseInt(a.widgetOrder) - parseInt(b.widgetOrder)),
+                 topicId: topicId
+
+
+             })
+         })
+
+
+     }
+
 
 
 
      render() {
          console.log("BEFORE STORE DISPATCH====")
          console.log("BEFORE STORE DISPATCH TOPIC ID", this.state.topic.id)
-         store.dispatch({
-             type: 'FIND_ALL_WIDGETS',
-             widgets: this.state.widgets,
-             topicId: this.state.topic.id
-         });
+         // store.dispatch({
+         //     type: 'FIND_ALL_WIDGETS',
+         //     widgets: this.state.widgets,
+         //     topicId: this.state.topic.id
+         // });
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-dark courseEditorNav">
@@ -579,7 +603,7 @@ const store = createStore(WidgetReducer);
 
                         </div>
                         <Provider store={store}>
-                            <WidgetListContainer/>
+                            <WidgetListContainer topicId = {this.state.topic.id}/>
                         </Provider>
                     </div>
                 </div>

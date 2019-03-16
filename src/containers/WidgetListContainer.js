@@ -2,37 +2,45 @@ import React from 'react'
 import {connect} from 'react-redux'
 import WidgetList from '../components/WidgetList'
 
-const stateToPropertyMapper = state => ({
-    widgets: state.widgets,
-    preview: state.preview
-    // topicId: ownProps.topicId
-})
+const stateToPropertyMapper = (state, ownProps) => {
+    return{
+        widgets: state.widgets,
+        topicId: ownProps.topicId,
+        preview: state.preview
+    }
+
+}
 
 const dispatchToPropertyMapper = dispatch => ({
+
     deleteWidget: widget =>
         dispatch({
             type: 'DELETE_WIDGET',
             widget: widget
         }),
-    addWidget: () =>
+    addWidget: topicId =>
         dispatch({
-            type: 'ADD_WIDGET'
+            type: 'ADD_WIDGET',
+            topicId: topicId
         }),
-    updateWidget: widget =>
+    updateWidget: widget =>{
+        //console.log("IN CONTAINER==>", this.widgets);
         dispatch({
             type: 'UPDATE_WIDGET',
             widget: widget
-        }),
+        })},
 
     previewWidget: () =>
         dispatch({
             type: 'PREVIEW'
         }),
 
-    saveWidget: () =>
+    saveWidget: (topicId) =>{
+        // console.log("IN CONTAINER SAVE METHOD TOPIC ID==>",topicId)
         dispatch({
-           type: 'SAVE'
-        }),
+            type: 'SAVE',
+            topicId: topicId
+        })},
 
     moveUp: widget =>
         dispatch({

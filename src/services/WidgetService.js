@@ -71,6 +71,7 @@ export default class WidgetService{
         const delURL = WIDGET_DELETE_URL + widgetId;
 
         return fetch(delURL , {
+            credentials: 'include',
             method: 'delete'
         })
 
@@ -83,12 +84,13 @@ export default class WidgetService{
         }
         // alert(newCourseName.title);
 
-        console.log("TOPIC ID ====>",topicId);
+        console.log("TOPIC ID IN SERVICE====>",topicId);
 
         ///api/topic/{tid}/widget
 
-        // alert(newCourseName.id);
-        const addURL = server_url + 'api/topic/' + topicId + "/" + newWidgetName.wtype + '/widget';
+       // alert(newCourseName.id);
+        const addURL = (server_url + 'api/topic/' + topicId + "/" + newWidgetName.type + '/widget').toLowerCase();
+        console.log(addURL);
         return fetch(addURL, {
             method: 'POST',
             headers: {

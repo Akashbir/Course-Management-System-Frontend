@@ -7,50 +7,49 @@ import WidgetService from "../services/WidgetService";
 
 const widgetService = new WidgetService();
 
-const widgetReducer = (state , action) => {
+const widgetReducer = (state = {
+    widgets:[],
+} , action) => {
     switch(action.type) {
         case 'DELETE_WIDGET':
-            widgetService.deleteWidget(action.widget.id);
+            if ( action.widget.id !== undefined) {
+                const w = widgetService.deleteWidget(action.widget.id);
+            }
             return {
                 widgets: state.widgets.filter(widget => widget.id !== action.widget.id)
-            }
+            };
         case 'ADD_WIDGET':
-            // console.log(state.widgets)
+             console.log("REDUCER ADD WIDGET===>",state.widgets)
             const newWidgetObj =   {
                 type: 'HEADING',
                 text: 'New Widget',
-                wtype: 'heading',
                 size: 1
             };
 
-            if(state.widgets === undefined || state.widgets){
+            if(state.widgets === undefined){
                 state.widgets = []
             }
-            // return {
-            //     widgets: [
-            //         ...state.widgets,
-            //         {
-            //             type: 'HEADING',
-            //             text: 'New Widget',
-            //             size: 1,
-            //             id: (new Date()).getTime()
-            //         }
-            //     ]
-            // }
+
+            if(state.widgets.length === 0){
+                newWidgetObj.widgetOrder = 1
+            }
+            else{
+                newWidgetObj.widgetOrder = state.widgets[state.widgets.length - 1].widgetOrder + 1;
+            }
+
             let newWidgetList = {
                 widgets: [
                     ...state.widgets,
                     newWidgetObj
                 ]
             };
-             console.log(state.topicId)
-            widgetService.createWidget(state.topicId, newWidgetObj);
             return newWidgetList;
 
 
         case 'UPDATE_WIDGET':
             // replace the old widget with the new widget
             return {
+                // console.log(action.widget);
                 widgets: state.widgets.map(widget =>
                     widget.id === action.widget.id ? action.widget : widget
                 )
@@ -58,6 +57,7 @@ const widgetReducer = (state , action) => {
 
         case 'FIND_ALL_WIDGETS':
             console.log("TOPIC ID ALL ==> reducer:", action.topicId)
+            console.log("CURRENT REDUCER WIDGETS FIND ALL", action.widgets);
             return{
                 widgets: action.widgets,
 
@@ -85,8 +85,9 @@ const widgetReducer = (state , action) => {
 
         case 'SAVE':
             console.log("IN SAVE WIDGET",state.widgets)
+            console.log("IN SAVE WIDGET : TOPIC ID ====>>" , action.topicId);
             state.widgets.map((widget) => {
-                widgetService.createWidget(widget,action.topicId)
+                widgetService.createWidget(action.topicId, widget)
             })
             return {
                 widgets: state.widgets,
