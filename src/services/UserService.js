@@ -1,9 +1,9 @@
 let instance = null;
-const loginUrl = "http://localhost:8080/api/login";
-const profileUrl = "http://localhost:8080/api/profile";
-const updateUrl = "http://localhost:8080/api/user/updateUser/";
-const logoutUrl = "http://localhost:8080/api/logout";
-const registerUrl = "http://localhost:8080/register";
+const loginUrl = "https://aqueous-everglades-35431.herokuapp.com/api/login";
+const profileUrl = "https://aqueous-everglades-35431.herokuapp.com/api/profile";
+const updateUrl = "https://aqueous-everglades-35431.herokuapp.com/api/user/updateUser/";
+const logoutUrl = "https://aqueous-everglades-35431.herokuapp.com/api/logout";
+const registerUrl = "https://aqueous-everglades-35431.herokuapp.com/register";
 
 
 

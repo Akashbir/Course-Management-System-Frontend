@@ -1,6 +1,6 @@
 
 let instance = null;
-const server_url = "http://localhost:8080/";
+const server_url = "https://aqueous-everglades-35431.herokuapp.com/";
 const WIDGET_ID_URL = server_url + 'api/widget/';
 const WIDGET_DELETE_URL = server_url+'api/widget/';
 

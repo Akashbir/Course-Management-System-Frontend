@@ -21,7 +21,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget, preview, moveUp, m
             {/*<option value="LINK">Link</option>*/}
         {/*</select>*/}
         {
-            widget.type=='HEADING' &&
+            widget.type==='HEADING' &&
             <HeadingWidget
                 preview = {preview}
                 updateWidget={updateWidget}
@@ -31,7 +31,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget, preview, moveUp, m
                 moveDown = {moveDown}
             />
             ||
-            widget.type=='IMAGE'   && <ImageWidget updateWidget={updateWidget}
+            widget.type==='IMAGE'   && <ImageWidget updateWidget={updateWidget}
                                                    preview = {preview}
                                                    widget={widget}
                                                    deleteWidget={deleteWidget}
@@ -39,7 +39,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget, preview, moveUp, m
                                                    moveDown = {moveDown}
             />
             ||
-            widget.type=='PARAGRAPH'   && <ParagraphWidget updateWidget={updateWidget}
+            widget.type==='PARAGRAPH'   && <ParagraphWidget updateWidget={updateWidget}
                                                    widget={widget}
                                                            preview = {preview}
                                                    deleteWidget={deleteWidget}
@@ -47,7 +47,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget, preview, moveUp, m
                                                            moveDown = {moveDown}
             />
             ||
-            widget.type=='LIST'   && <ListWidget updateWidget={updateWidget}
+            widget.type==='LIST'   && <ListWidget updateWidget={updateWidget}
                                                  preview = {preview}
                                                            widget={widget}
                                                            deleteWidget={deleteWidget}

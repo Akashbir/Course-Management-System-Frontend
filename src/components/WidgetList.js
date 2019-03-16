@@ -29,7 +29,7 @@ const WidgetList = ({widgets, topicId, addWidget, deleteWidget, updateWidget, pr
                 )
             }
             <button
-                onClick={() => addWidget(topicId)}
+                onClick={addWidget}
                 className="btn btn-success">
                 {console.log("WIDGETS LIST==>",widgets)}
                 Add

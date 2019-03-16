@@ -2,7 +2,8 @@ import courses from './courses.json'
 
 let instance = null;
 
-const SERVER_URL = 'http://localhost:8080/';
+const SERVER_URL = 'https://aqueous-everglades-35431.herokuapp.com/';
+
 
 const COURSE_API_URL = SERVER_URL + 'api/courses';
 const COURSE_ID_URL = SERVER_URL+ 'api/courses/';

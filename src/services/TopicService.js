@@ -1,5 +1,5 @@
 let instance = null;
-const server_url = "http://localhost:8080/";
+const server_url = "https://aqueous-everglades-35431.herokuapp.com/";
 
 
 export default class TopicService {

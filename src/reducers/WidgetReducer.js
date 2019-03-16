@@ -13,13 +13,13 @@ const widgetReducer = (state = {
     switch(action.type) {
         case 'DELETE_WIDGET':
             if ( action.widget.id !== undefined) {
-                const w = widgetService.deleteWidget(action.widget.id);
+                widgetService.deleteWidget(action.widget.id);
             }
             return {
                 widgets: state.widgets.filter(widget => widget.id !== action.widget.id)
             };
         case 'ADD_WIDGET':
-             console.log("REDUCER ADD WIDGET===>",state.widgets)
+            console.log("REDUCER ADD WIDGET===>",state.widgets);
             const newWidgetObj =   {
                 type: 'HEADING',
                 text: 'New Widget',
