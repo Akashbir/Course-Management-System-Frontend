@@ -2,13 +2,15 @@
 
 import CourseService from '../services/CourseService'
 import CourseEditor from '../containers/CourseEditor'
+import TopicService from "../services/TopicService";
+import WidgetService from "../services/WidgetService";
 
-const courseService = new CourseService();
+const widgetService = new WidgetService();
 
 const widgetReducer = (state , action) => {
     switch(action.type) {
         case 'DELETE_WIDGET':
-            courseService.deleteWidget(action.widget.id);
+            widgetService.deleteWidget(action.widget.id);
             return {
                 widgets: state.widgets.filter(widget => widget.id !== action.widget.id)
             }
@@ -17,11 +19,11 @@ const widgetReducer = (state , action) => {
             const newWidgetObj =   {
                 type: 'HEADING',
                 text: 'New Widget',
-                size: 1,
-                id: Math.random()
+                wtype: 'heading',
+                size: 1
             };
 
-            if(state.widgets === undefined){
+            if(state.widgets === undefined || state.widgets){
                 state.widgets = []
             }
             // return {
@@ -41,8 +43,8 @@ const widgetReducer = (state , action) => {
                     newWidgetObj
                 ]
             };
-            // console.log(state.topicId)
-            courseService.createWidget(state.topicId, newWidgetObj);
+             console.log(state.topicId)
+            widgetService.createWidget(state.topicId, newWidgetObj);
             return newWidgetList;
 
 
@@ -55,8 +57,10 @@ const widgetReducer = (state , action) => {
             }
 
         case 'FIND_ALL_WIDGETS':
+            console.log("TOPIC ID ALL ==> reducer:", action.topicId)
             return{
                 widgets: action.widgets,
+
                 topicId: action.topicId,
                 preview: false
             };
@@ -78,6 +82,17 @@ const widgetReducer = (state , action) => {
                 topicId: state.topicId
             };
 
+
+        case 'SAVE':
+            console.log("IN SAVE WIDGET",state.widgets)
+            state.widgets.map((widget) => {
+                widgetService.createWidget(widget,action.topicId)
+            })
+            return {
+                widgets: state.widgets,
+                topicId: action.topicId,
+                preview: false
+            }
 
         case 'MOVE_DOWN':
             let indexOfDown = state.widgets.indexOf(action.widget);

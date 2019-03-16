@@ -29,6 +29,11 @@ const dispatchToPropertyMapper = dispatch => ({
             type: 'PREVIEW'
         }),
 
+    saveWidget: () =>
+        dispatch({
+           type: 'SAVE'
+        }),
+
     moveUp: widget =>
         dispatch({
             type: 'MOVE_UP',

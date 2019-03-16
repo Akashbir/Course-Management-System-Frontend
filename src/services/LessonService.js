@@ -1,6 +1,6 @@
 
 let instance = null;
-const server_url = "https://pacific-hamlet-73848.herokuapp.com/";
+const server_url = "http://localhost:8080/";
 const MODULE_ID_URL = server_url + 'api/modules/';
 const MODULE_DELETE_URL = server_url+'api/modules/';
 // const MODULE_ADD_URL = server_url+'api/courses/{cid}/modules'
@@ -63,5 +63,14 @@ export default class LessonService {
             method: 'get',
             credentials: 'include'
         }).then(res => res.json())
+   }
+
+   findLessonById = (lessonId) => {
+        const findUrlLesson = server_url + "api/lesson/" + lessonId;
+        return fetch(findUrlLesson, {
+            method: 'get',
+            credentials: 'include'
+            }
+        ).then(response => response.json())
    }
 }

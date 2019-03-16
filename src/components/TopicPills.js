@@ -8,6 +8,7 @@ const TopicPills = ({topics, deleteTopic, placeTopicTitleInput, updateTopic, sel
             topics.map( topic =>
 
                 <li
+                    key={topic.id}
                     className="nav-item mt-3"
                     onClick={() => selectTopic(topic)}
                 >

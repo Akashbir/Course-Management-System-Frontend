@@ -36,6 +36,10 @@
 	background-color:#4c5155;
 }
 
+.module-item li.hover{
+	background-color: aqua;
+}
+
 .module-update{
 	color: white;
 	float: right;

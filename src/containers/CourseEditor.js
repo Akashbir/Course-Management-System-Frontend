@@ -15,6 +15,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import WidgetListContainer from '../containers/WidgetListContainer'
 import ModuleService from "../services/ModuleService";
+import WidgetService from "../services/WidgetService";
 
 const store = createStore(WidgetReducer);
 
@@ -27,6 +28,7 @@ const store = createStore(WidgetReducer);
          this.moduleService = new ModuleService();
          this.lessonService = new LessonService();
          this.topicService = new TopicService();
+         this.widgetService = new WidgetService();
          // const courseId = parseInt(props.match.params.id)
          // const course = this.courseService.findCourseById(courseId)
          // console.log(course)
@@ -34,9 +36,9 @@ const store = createStore(WidgetReducer);
              courseId : parseInt(this.props.match.params.id),
              course: [],
              modules: [],
-             module: [],
+             module: "",
              lessons: [],
-             lesson: [],
+             lesson: "",
              // newModule:{
              //     title: '',
              //     id: ''
@@ -49,28 +51,116 @@ const store = createStore(WidgetReducer);
              selectedTopicName: '',
              topics: [],
              topic: [],
-             // widgets: []
+             widgets: [],
+             widget: ""
          }
      }
 
+     // componentWillMount() {
+     //
+     //     // console.log(courseId);
+     //     // console.log(this.courseService.findCourseById(courseId).modules);
+     //      this.courseService.findCourseById(this.state.courseId).then((response) => {
+     //          this.setState({
+     //              course: response,
+     //              module: response.modules[0],
+     //              modules: response.modules,
+     //              lesson: response.modules[0].lessons[0],
+     //              lessons: response.modules[0].lessons,
+     //              topic: response.modules[0].lessons[0].topics[0],
+     //              topics: response.modules[0].lessons[0].topics
+     //
+     //          })
+     //      })
+     //
+     //
+     // }
+
      componentWillMount() {
+         this.courseService.findCourseById(this.state.courseId).then((response) => {
+             // console.log("aaa>",response);
+             // console.log("res>>>", response);
+             const course = response;
+             console.log("COURSE==>",course);
+             if (course.modules === undefined || course.modules == null ) {
+                 this.setState(
+                     {
+                         course: course,
+                         modules : [],
+                         module:  {
+                             title: "",
+                             lessons:[]
+                         },
+                         lessons : [],
+                         lesson : {
+                             title:"",
+                             topics:[]
+                         },
 
-         // console.log(courseId);
-         // console.log(this.courseService.findCourseById(courseId).modules);
-          this.courseService.findCourseById(this.state.courseId).then((response) => {
-              this.setState({
-                  course: response,
-                  module: response.modules[0],
-                  modules: response.modules,
-                  lesson: response.modules[0].lessons[0],
-                  lessons: response.modules[0].lessons,
-                  topic: response.modules[0].lessons[0].topics[0],
-                  topics: response.modules[0].lessons[0].topics
+                         topics: [],
+                         topic : {
+                             title:""
+                         },
 
-              })
-          })
+                         widgets: [],
+                         widget : ""
 
+                     }
+                 )
+             }
 
+             else if(course.modules.lessons === undefined || course.modules.lessons == null || course.modules.lessons.length===0){
+                 this.setState({
+                     course: course,
+                     module: course.modules[0],
+                     modules: course.modules,
+                     lessons: [],
+                     lesson: {
+                         title: "",
+                         topics: []
+                     },
+                     topic: {
+                         title: ""
+                     }
+                 })
+             }
+
+             else if(course.modules.lessons.topics === undefined || course.modules.lessons.topics === null || course.modules.lessons.topics.length===0){
+                 this.setState({
+                     course: course,
+                     module: course.modules[0],
+                     modules: course.modules,
+                     lessons: [],
+                     lesson: {
+                         title: "",
+                         topics: []
+                     },
+                     topic: {
+                         title: ""
+                     }
+                 })
+
+             }
+
+             else {
+                 this.setState(
+                     {
+                         course: course,
+                         modules:course.modules,
+                         module: course.modules[0],
+
+                          lessons:course.modules[0].lessons,
+                         lesson: course.modules[0].lessons[0],
+
+                         topics: course.modules[0].lessons[0].topics,
+                         topic:  course.modules[0].lessons[0].topics[0] === undefined ? 0 : response.modules[0].lessons[0].topics[0],
+
+                         widgets: course.modules[0].lessons[0].topics[0].widgets,
+                         widget: course.modules[0].lessons[0].topics[0].widgets[0]
+                     }
+                 )
+             }
+         });
      }
 
 
@@ -95,7 +185,8 @@ const store = createStore(WidgetReducer);
          // alert(this.state.courseId);
          console.log(this.state.newModule);
          let module = {
-             "title" : this.state.newModuleTitle
+             "title" : this.state.newModuleTitle,
+             lessons: []
          }
          this.moduleService.createModule(module, this.state.courseId).then(
              response => {
@@ -168,7 +259,7 @@ const store = createStore(WidgetReducer);
      }
 
      selectModule = (module) => {
-         if(module.lessons.length == 0) {
+         if(module.lessons.length === 0 || module.lessons===undefined) {
              this.setState({
                  module:module,
                  lessons: [],
@@ -181,10 +272,14 @@ const store = createStore(WidgetReducer);
                  topics: []
              })
          } else {
-             this.setState({
-                 module:module,
-                 lessons: module.lessons,
-                 topics: module.lessons[0].topics
+             this.moduleService.findAllModules(this.state.courseId).then(response => {
+                 this.setState({
+                     module: module,
+                     modules: response,
+                     lessons: module.lessons,
+                     lesson: module.lessons[0],
+                     topics: module.lessons[0].topics
+                 })
              })
          }
 
@@ -314,16 +409,15 @@ const store = createStore(WidgetReducer);
 
 
      selectLesson = (lesson) => {
+            this.lessonService.findLessonById(lesson.id).then(
+                response => {
+                    this.setState({
+                        lesson: response,
+                        topics: response.topics
+                    })
+                }
+            )
 
-         if(lesson.topics.length == 0) {
-             this.setState({
-                 topics: []
-             })
-         } else {
-             this.setState({
-                 topics: lesson.topics
-             })
-         }
      }
 
 
@@ -369,14 +463,42 @@ const store = createStore(WidgetReducer);
 
          this.state.topic = topic;
          this.state.widgets = topic.widgets;
+
+         if(topic.widgets.length == 0) {
+             this.setState({
+                 widgets: []
+             })
+         } else {
+             this.setState({
+                 widgets: topic.widgets
+             })
+         }
+         // this.widgetService.findWidgetByTopicId(this.state.topic.id).then((response) => {
+         //     store.dispatch({
+         //         type: 'FIND_ALL_WIDGETS',
+         //         widgets: response,
+         //         topicId: topic.id
+         //
+         //     })
+         //
+         //     this.setState({
+         //
+         //     })
+         // })
+
      }
 
+
+
+
      render() {
-         // store.dispatch({
-         //     type: 'FIND_ALL_WIDGETS',
-         //     widgets: this.courseService.findWidgets(this.state.topic.id),
-         //     topicId: this.state.topic.id
-         // });
+         console.log("BEFORE STORE DISPATCH====")
+         console.log("BEFORE STORE DISPATCH TOPIC ID", this.state.topic.id)
+         store.dispatch({
+             type: 'FIND_ALL_WIDGETS',
+             widgets: this.state.widgets,
+             topicId: this.state.topic.id
+         });
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-dark courseEditorNav">
@@ -456,9 +578,9 @@ const store = createStore(WidgetReducer);
                                 className="btn btn-outline-secondary ml-2" type="button">Update Topic</button>
 
                         </div>
-                        {/*<Provider store={store}>*/}
-                            {/*<WidgetListContainer/>*/}
-                        {/*</Provider>*/}
+                        <Provider store={store}>
+                            <WidgetListContainer/>
+                        </Provider>
                     </div>
                 </div>
             </div>

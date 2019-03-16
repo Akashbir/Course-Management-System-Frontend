@@ -53,6 +53,7 @@ export class CourseTableBodyLayout extends Component{
     constructor(props) {
         super(props);
         this.courseService = new CourseService();
+        this.userService = new UserService();
         this.state = {
             courses: [],
             newCourseName:"",
@@ -68,6 +69,18 @@ export class CourseTableBodyLayout extends Component{
                     courses: myJson
                 })
             });
+
+        // this.userService.profile().then(res => {
+        //     console.log("logged in response", res.id);
+        //     this.courseService.findAllCourses(userId).then(res => {
+        //         this.setState({
+        //             courses: res,
+        //             user: {
+        //                 id: res.id
+        //             }
+        //         })
+        //     })
+        // })
     }
 
 

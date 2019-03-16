@@ -22,7 +22,7 @@ class ModuleList extends React.Component {
     render() {
         return(
             <ul className="nav flex-column nav-pills mt-4">
-                <li className="list-group-item">
+                <li className="list-group-item module-item">
                     <input
                         onChange={this.props.titleChangedModule}
                         className="form-control"

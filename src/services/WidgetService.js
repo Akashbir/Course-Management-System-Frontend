@@ -1,13 +1,12 @@
 
 let instance = null;
 const server_url = "http://localhost:8080/";
-const MODULE_ID_URL = server_url + 'api/modules/';
-const MODULE_DELETE_URL = server_url+'api/modules/';
-// const MODULE_ADD_URL = server_url+'api/courses/{cid}/modules'
+const WIDGET_ID_URL = server_url + 'api/widget/';
+const WIDGET_DELETE_URL = server_url+'api/widget/';
 
 
 
-export default class ModuleService{
+export default class WidgetService{
 
     constructor(){
         if(!instance){
@@ -16,9 +15,9 @@ export default class ModuleService{
         return instance;
     }
 
-    findAllModules = (courseId) =>{
-        // alert(courseId)
-        const findUrl = server_url + "api/courses/"+courseId+"/modules";
+    findWidgetByTopicId = (topicId) =>{
+        console.log("TOPIC ID IN WIDGET SERVICE METHOD ======>",topicId);
+        const findUrl = server_url + "api/topic/"+topicId+"/widget";
         // alert(findUrl);
         return fetch(findUrl,{
             method:'get',
@@ -28,10 +27,24 @@ export default class ModuleService{
         })
     }
 
+    //
+    // saveWidget = (topicId) => {
+    //     const saveUrl = server_url + "api/topic/"+topicId+"/saveWidget";
+    //
+    //     return fetch(saveUrl,{
+    //         method: 'post',
+    //         credentials: 'include',
+    //         body: JSON.stringify()
+    //     }).then(function (response) {
+    //         return response.json()
+    //
+    //     })
+    // }
 
-    findModuleById = moduleId => {
 
-        const idURL = MODULE_ID_URL + moduleId;
+    findWidgetById = widgetId => {
+
+        const idURL = WIDGET_ID_URL + widgetId;
 
         // alert(idURL)
 
@@ -53,9 +66,9 @@ export default class ModuleService{
 
     }
 
-    deleteModule = moduleId => {
+    deleteWidget = widgetId => {
 
-        const delURL = MODULE_DELETE_URL + moduleId;
+        const delURL = WIDGET_DELETE_URL + widgetId;
 
         return fetch(delURL , {
             method: 'delete'
@@ -64,13 +77,18 @@ export default class ModuleService{
 
     };
 
-    createModule = (newModuleName, courseId) => {
-        if(newModuleName.title === "" || newModuleName === undefined|| newModuleName===null) {
-            newModuleName.title = "New Module"
+    createWidget = (topicId, newWidgetName) => {
+        if(newWidgetName.title === "" || newWidgetName === undefined|| newWidgetName===null) {
+            newWidgetName.title = "New Widget"
         }
         // alert(newCourseName.title);
+
+        console.log("TOPIC ID ====>",topicId);
+
+        ///api/topic/{tid}/widget
+
         // alert(newCourseName.id);
-        const addURL = server_url + 'api/courses/' + courseId + '/modules';
+        const addURL = server_url + 'api/topic/' + topicId + "/" + newWidgetName.wtype + '/widget';
         return fetch(addURL, {
             method: 'POST',
             headers: {
@@ -78,7 +96,7 @@ export default class ModuleService{
                 'content-type': 'application/json'
             },
             credentials:'include',
-            body: JSON.stringify(newModuleName)
+            body: JSON.stringify(newWidgetName)
         })
             .then( function(response){
 
@@ -88,14 +106,14 @@ export default class ModuleService{
 
     }
 
-    updateModule = (moduleId, newModuleTitle) => {
+    updateWidget = (widgetId, newWidgetTitle) => {
 
-        const newModule = {
-            title: newModuleTitle,
-            id: moduleId
+        const newWidget = {
+            title: newWidgetTitle,
+            id: widgetId
         }
-        console.log("newMod ", newModule)
-        const updateURL = server_url + "api/modules/" + moduleId;
+        console.log("newWid ", newWidget)
+        const updateURL = server_url + "api/widget/" + widgetId;
         return fetch(updateURL,{
             method: 'PUT',
             headers: {
@@ -103,11 +121,11 @@ export default class ModuleService{
                 'content-type': 'application/json'
             },
             credentials:'include',
-            body: JSON.stringify(newModule)
+            body: JSON.stringify(newWidget)
 
         }).then(function (response) {
 
-           return response.json();
+            return response.json();
         });
     }
 
